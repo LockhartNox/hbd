@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>🎂 Selamat Ulang Tahun!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(45deg, #ffccff, #ccffff, #ffcccc, #ffffcc);
+      background-size: 400% 400%;
+      animation: gradient 10s ease infinite;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    @keyframes gradient {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    h1 {
+      margin-top: 100px;
+      font-size: 3.5em;
+      color: #fff;
+      text-shadow: 2px 2px #ff00cc;
+    }
+
+    p {
+      font-size: 1.8em;
+      margin: 20px auto;
+      width: 80%;
+    }
+
+    button {
+      font-size: 1.3em;
+      padding: 15px 30px;
+      background-color: #ff66cc;
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 0, 150, 0.5);
+    }
+
+    #confetti {
+      font-size: 3em;
+      margin-top: 30px;
+      animation: float 2s infinite;
+    }
+
+    @keyframes float {
+      0% {transform: translateY(0);}
+      50% {transform: translateY(-15px);}
+      100% {transform: translateY(0);}
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Happy Birthday, Kaleee! 🎂</h1>
+  <p>Panjang umur, sehat selaluuu! Semoga yang disemogakan tersemogakan...🥳💖</p>
+  <button onclick="startParty()">press here, pwease 🎁</button>
+  <div id="confetti"></div>
+  <canvas id="canvas"></canvas>
+  <audio id="bgm" src="https://www.fesliyanstudios.com/play-mp3/387" loop></audio>
+
+  <script>
+    function startParty() {
+      document.getElementById("confetti").innerHTML = "🎊🎊💖🎉💥✨🎈🎈🎉💖🎊";
+      document.getElementById("bgm").play();
+      launchConfetti();
+    }
+
+    function launchConfetti() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const pieces = [];
+      for (let i = 0; i < 150; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 6 + 4,
+          color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+          speed: Math.random() * 3 + 2,
+        });
+      }
+
+      function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+          p.y += p.speed;
+          if (p.y > canvas.height) p.y = 0;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+        });
+        requestAnimationFrame(update);
+      }
+      update();
+    }
+  </script>
+</body>
+</html>
